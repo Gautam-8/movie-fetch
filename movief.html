@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    
+    #centr{
+        margin: auto;
+     align-content: center;
+        width:max-content
+    }
+   
+    #imgr{
+        width:70px;
+        height:70px;
+    }
+    #divr{
+        display: flex;
+        margin-left:40px;
+    }
+    #divr img{
+        
+        margin-left:80px;
+    }
+    input{
+        width:400px;
+        height:60px;
+        border-radius: 50px;
+        font-size:xx-large;
+        text-align: center;
+        color: tomato;
+    }
+    button img{
+        width: 50px;
+        border-radius: 50px;
+        margin-top:5px;
+        
+    }
+    
+    button{
+        width:50px;
+        border: none;
+      background-color: white;
+    }
+    #but{
+        display: flex;
+    }
+    button img:hover{
+        
+        cursor: pointer;
+    }
+    p{
+        font-family: sans-serif;
+        font-size: large;
+        font-weight:normal;
+    }
+    
+   
+</style>
+<body>
+    <div id = "centr">
+        <div id = 'but'>
+    <input id = 'movi'/>
+   <div> <button onclick = search()><img src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoj-HjP0z-hst-Xitv8OtVx1fJC927Ro7CBQ&usqp=CAU"/></button></div>
+        </div>
+   <div id = 'data'></div>
+</div>
+</body>
+<script>
+
+
+async function search(){
+
+let movi = document.getElementById('movi').value;
+
+   let res = await fetch(`https://www.omdbapi.com/?t=${movi}&apikey=5eb6d1dc`);
+   let info = await res.json();
+   console.log(info);
+showmovies(info);
+
+}
+
+let container = document.getElementById('data');
+function showmovies(movie){
+
+   
+    container.innerHTML = null;
+
+    let div = document.createElement('div');
+
+    let name = document.createElement('p');
+    name.innerText = movie.Title;
+
+    let img = document.createElement('img');
+    img.src = movie.Poster;
+
+    let releasedate = document.createElement('p');
+    releasedate.innerText = "Release Date : "+" "+movie.Released;
+
+    let rating = document.createElement('p');
+    rating.innerText = 'IMDB' + "  "+ movie.imdbRating;
+
+    let gif = document.createElement('img');
+    gif.src = "https://i.gifer.com/7qS3.gif";
+
+    let divr = document.createElement('div');  divr.setAttribute('id','divr');
+    
+
+    let imgr = document.createElement('img');   imgr.setAttribute('id','imgr');
+    imgr.src = 'https://media0.giphy.com/media/RG4px8UayRHy9GR7PM/200.gif';
+
+   
+
+
+    if(movie.Title === undefined ){
+        div.append(gif);
+      container.append(div);
+    }
+    else if(movie.imdbRating >= 8.5){
+        divr.append(rating,imgr);
+        div.append(name,releasedate,img,divr);
+    container.append(div);
+
+    }
+    else{
+    div.append(name,releasedate,img,rating);
+    container.append(div);
+}
+}
+
+
+
+
+
+</script>
+</html>
